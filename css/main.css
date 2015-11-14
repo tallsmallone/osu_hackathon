@@ -1,3 +1,15 @@
 .main {
 	padding-top: 60px;
 }
+
+.logo {
+	margin-left:auto;
+	margin-right:auto; 
+	display:block;
+}
+
+#search {
+	left:25%; 
+	width:50%;
+	min-width:500px;
+}
