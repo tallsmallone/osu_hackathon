@@ -1,0 +1,132 @@
+Name: 
+ 12th Avenue Bread Co.
+ 
+--Location Type: Restaurant, Campus Dining--
+--Food Type:Sandwiches/Deli, Coffee Shop--
+Address: --
+251 W. 12th Ave. Columbus, OH 43210
+ 
+
+(614)292-3573 --
+
+Name: 
+ Berry Cafe
+ 
+Location Type: Restaurant, Campus Dining
+Food Type:Sandwiches/Deli, Coffee Shop
+Address: 
+1858 Neil Avenue Mall Thompson Library Columbus, OH 43210
+ 
+
+ 
+
+Name: 
+ Cafe Carmen
+ 
+--Location Type: Restaurant, Campus Dining--
+--Food Type:Hamburgers/American, Sandwiches/Deli, Coffee Shop, Ice Cream/Desserts--
+Address: --
+1328 Dover Rd. Skou Hall Wooster, OH 44691
+ 
+
+ --
+
+Name: 
+ Caffeine Element
+ 
+Location Type: Restaurant, Campus Dining
+Food Type:Sandwiches/Deli, Coffee Shop
+Address: 
+376 W. 10th Avenue Prior Health Sciences Library Columbus, OH 43210
+ 
+
+(614)496-0098 
+
+Name: 
+ Campus Cafe (Mansfield)
+ 
+--Location Type: Campus Dining--
+--Food Type:Sandwiches/Deli--
+Address: --
+ Eisenhower Building Mansfield, OH 44906
+ 
+
+ --
+
+Name: 
+ Campus Grind (College of Vet Med)
+ 
+Location Type: Restaurant, Campus Dining
+Food Type:Sandwiches/Deli, Coffee Shop
+Address: 
+Vet Med 1900 Coffey Rd. Columbus, OH 43210
+ 
+
+ 
+
+Name: 
+ Campus Grind (Drinko Hall)
+ 
+--Location Type: Campus Dining--
+--Food Type:Sandwiches/Deli, Coffee Shop--
+Address: --
+55 W. 12th Ave. Columbus, OH 43210
+ 
+
+ --
+
+Name: 
+ Campus Grind (McPherson)
+ 
+Location Type: Campus Dining
+Food Type:Sandwiches/Deli, Coffee Shop
+Address: 
+140. W. 18th Ave Columbus, OH 43201
+ 
+
+ 
+
+Name: 
+ Connecting Grounds
+ 
+--Location Type: Restaurant, Campus Dining--
+--Food Type:Coffee Shop--
+Address: --
+160 W. Woodruff Avenue Columbus, OH 43210
+ 
+
+ --
+
+Name: 
+ Courtside Cafe
+ 
+Location Type: Campus Dining
+Food Type:Sandwiches/Deli, Other
+Address: 
+337 W. 12th Ave. RPAC Columbus, OH 43210
+ 
+
+ 
+
+Name: 
+ Crane Cafe
+ 
+--Location Type: Restaurant, Campus Dining--
+--Food Type:Sandwiches/Deli, Coffee Shop--
+Address: --
+1775 College Rd Hagerty Hall Columbus, OH 43210
+ 
+
+(614)292-1441 --
+
+Name: 
+ Curl Market
+ 
+Location Type: Restaurant, Campus Dining
+Food Type:Hamburgers/American, Pizza/Pasta, Ethnic Foods, Sandwiches/Deli, Coffee Shop, Ice Cream/Desserts, Other
+Address: 
+80 W. Woodruff Avenue Columbus, OH 43210
+ 
+
+ 
+
