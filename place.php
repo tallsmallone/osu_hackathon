@@ -2,7 +2,7 @@
 	require_once("frames/head.php"); 
 ?>
 	<div>
-		<div class="input-group input-group-lg"  style="top:250px; left:25%; width:50%;">
+		<div class="input-group input-group-lg" style="width:50%">
 	   		<input type="text" class="form-control" placeholder="Where to Eat" aria-describedby="sizing-addon1">
 	   	</div>
 		<h3>Place name</h3>
@@ -16,7 +16,6 @@
 		Sunday: etc.<br>
 		Tags: [gluten-free], [vegan], etc.
 		<br>
-		
 	</div>
 <?php
   	require_once("frames/footer.php");
