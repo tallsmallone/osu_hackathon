@@ -1,4 +1,9 @@
 <?php
+	if ('functions.php' == basename( $_SERVER['SCRIPT_FILENAME'] ) ) {
+		header("Location: ../");
+		die('Error.');
+	}
+
 	function db_connect() {
 		static $connection;
 		if(!isset($connection)) {
@@ -12,5 +17,7 @@
 		return $connection;
 	}
 
-	echo (db_connect());
+	if (db_connect() == false) {
+		die("Something went wrong!");
+	}
 ?>
