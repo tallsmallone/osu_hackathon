@@ -1,10 +1,11 @@
 <?php
 	require_once("frames/head.php"); 
 ?>
-
-	
-   <p>Hello world!</p>
-   <br><a href="http://osu.edu"><img src="img/BuckeyeLeaf.png" height="80px" width="73px"/></a>
+	<div>
+		<div class="input-group input-group-lg"  style="top:250px; left:25%; width:50%;">
+	   		<input type="text" class="form-control" placeholder="Where to Eat" aria-describedby="sizing-addon1">
+	   	</div>
+	</div>
 <?php
   	require_once("frames/footer.php");
 ?>
