@@ -40,6 +40,7 @@
 
 		$db->close();
 		return $out;
+	}
 	
 	function explodeTags($taglist, $href) {
 		$tags = "";
