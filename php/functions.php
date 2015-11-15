@@ -84,10 +84,10 @@
 			if ($from == "id"){ 
 				$stmt->bind_param("i",$get);
 			} else if ($from == "name") {
-				$get = str_replace('_',' ',htmlspecialchars($get));
+				$get = str_replace('_',' ',htmlentities($get));
 				$stmt->bind_param("s",$get);
 			} else if (preg_match('/^\d(?:,\d)*$/',$get) && ($from == "types" || $from == "tags")) {
-				$stmt->bind_param("s",htmlspecialchars($get));
+				$stmt->bind_param("s",htmlentities($get));
 			}
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 
@@ -110,7 +110,7 @@
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
 					$url_part = str_replace(' ','_',$result[$i]["name"]);
-					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?name=$url_part'>".$result[$i]["name"]."</a>";					
+					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
 "		<h3><b>$title</b></h3>
