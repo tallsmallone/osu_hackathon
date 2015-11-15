@@ -19,3 +19,18 @@
 	height=500px; 
 	margin:auto"
 }
+
+#search {
+	margin: 10px auto;
+	width: 500px;
+}
+
+a.tag {
+	border: 1px solid black;
+	color: white;
+	background-color: grey;
+}
+
+a.title {
+	color:black;s
+}
