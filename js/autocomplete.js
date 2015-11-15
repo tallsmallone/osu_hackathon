@@ -7,8 +7,25 @@ $(document).ready(function() {
 			$.get("php/autocomplete.php", {keyword: keyword})
 				.done(function(data)
 				{
-					console.log(date);
+					$('#results').html('');
+					console.log(data);
+					var results = jQuery.ParseJSON(data);
+					$(results).each(function (key, value)
+					{
+						console.log(value);
+						$('#results').append('<div class="item">' + value + '</div>');
+					});
+
+					$('.item').click(function() {
+						var text = $(this).html();
+						$('#search').val(text);
+					});
+
 				});
+		}
+		else
+		{
+			$('#results').html('');
 		}
 	});
 });
