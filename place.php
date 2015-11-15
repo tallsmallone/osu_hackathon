@@ -21,19 +21,8 @@
 	else getPlaceInfo(0);
 ?>
 	<script type="text/javascript" src='js/autocomplete.js'></script>
-	<script typu="text/javascript">// for the page redirect
-		$(document).keypress(function(e) {
-		    if(e.which == 13) {
-		    	var search = $('#search').val();
-		    	search = search.replace(' ', '_');
-		        window.location.replace("place?name=" + search.toLowerCase());
-			}
-		});
-
-		$("#results").click(function() {
-			$('.dropdown-toggle').dropdown();
-		});
-	</script>
+	<script typu="text/javascript" src='js/search.js'></script>
+	
 <?php
   	require_once("frames/footer.php");
 ?>

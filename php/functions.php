@@ -25,7 +25,7 @@
 		$db = db_connect();
 		$stmt = $db->prepare("SELECT name FROM places WHERE name LIKE ?");
 
-		$keyword = $keyword . '%';
+		$keyword = $db->real_escape_string("%$keyword%");
 		$stmt->bind_param('s', $keyword);
 
 		$results = array();
@@ -126,7 +126,7 @@
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
-					$url_part = str_replace([' ','&'],['_','%26'],$result[$i]["name"]);
+					$url_part = urlencode($result[$i]["name"]); // php likely has a better fix later TODO
 					$title = $from == "name" ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
