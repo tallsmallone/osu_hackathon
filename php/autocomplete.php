@@ -1,5 +1,5 @@
 <?php
-require_once('php/functions.php');
+require_once('functions.php');
 
 if(!isset($_GET['keyword']))
 {

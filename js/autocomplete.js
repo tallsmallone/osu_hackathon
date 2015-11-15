@@ -2,19 +2,25 @@ var MIN_LENGTH = 1;
 $(document).ready(function() {
 	$('#search').keyup(function() {
 		var keyword = $('#search').val();
+		//$('#debug').html(keyword);
 		if(keyword.length >= MIN_LENGTH)
 		{
-			$.get("php/autocomplete.php", {keyword: keyword})
+			//$('#debug').html('WORKS MORE');
+			$.get("../php/autocomplete.php", {keyword: keyword})
 				.done(function(data)
 				{
+					//$('#debug').html('more');
 					$('#results').html('');
-					console.log(data);
-					var results = jQuery.ParseJSON(data);
-					$(results).each(function (key, value)
+					$('#debug').html(data);
+					if(!(data === null))
 					{
-						console.log(value);
-						$('#results').append('<div class="item">' + value + '</div>');
-					});
+						var results = jQuery.parseJSON(data);
+						$(results).each(function (key, value)
+						{
+							$('#results').append('<div class="item">' + value + '</div>');
+							//$('#debug').html(key + ", " + value);
+						});
+					}
 
 					$('.item').click(function() {
 						var text = $(this).html();
