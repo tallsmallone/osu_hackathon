@@ -11,13 +11,12 @@ $(document).ready(function() {
 				{
 					//$('#debug').html('more');
 					$('#results').html('');
-					$('#debug').html(data);
 					if(!(data === null))
 					{
 						var results = jQuery.parseJSON(data);
 						$(results).each(function (key, value)
 						{
-							$('#results').append('<div class="item">' + value + '</div>');
+							$('#results').append('<li>' + value + '</li>');
 							//$('#debug').html(key + ", " + value);
 						});
 					}

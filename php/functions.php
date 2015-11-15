@@ -30,11 +30,11 @@
 
 		$results = array();
 		$stmt->execute();
-		$result = $stmt->get_result();
+		$stmt->bind_result($result);
 
 		$out = array();
-		while($row = $result->fetch_assoc()) {
-			array_push($out,$row['name']);
+		while($stmt->fetch()) {
+			array_push($out,$result);
 		}
 	
 
