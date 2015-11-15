@@ -30,8 +30,8 @@ input.search_big {
 }
 
 input.search_small {
-	min-width: 300px;
-	max-width: 500px;
+	min-width: 250px;
+	max-width: 450px;
 }
 
 a.tag {
@@ -53,15 +53,15 @@ a.title {
 }
 div.data {
   float:left; 
-  margin-right:20px;
+  margin-right:150px;
   line-height: 22px;
   min-width: 350px;
 }
 div#map { 
-  margin: -50px 0;
+  margin: -30px 0;
 }
 #map iframe {
-  border: 1px solid black;
+	
 }
 
 @media screen and (max-width: 600px){
