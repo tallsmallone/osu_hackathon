@@ -101,7 +101,8 @@
 				$get = str_replace('_',' ',$get);
 				$stmt->bind_param("s",$get);
 			} else if ($from == "types" || $from == "tags") {
-				$stmt->bind_param("i",getTag($get,$from));
+				$get = getTag($get,$from);
+				$stmt->bind_param("i",$get);
 			}
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 

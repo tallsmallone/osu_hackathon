@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `info`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `info` (
   `id` int(11) NOT NULL,
-  `location` varchar(45) DEFAULT NULL,
+  `location` TEXT DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `website` varchar(45) DEFAULT NULL,
   `menu` varchar(45) DEFAULT NULL,
