@@ -13,7 +13,7 @@
 				<ul class="nav navbar-nav">
 				<li><a href="./">Home</a></li>
 				<li><a href="places">Places</a></li>
-				<li><a href="contact">Contact</a></li>
+				<li><a href="https://github.com/tallsmallone/osu_hackathon/blob/master/README.md">About</a></li>
 				</ul>
 			</div>
 		</div>

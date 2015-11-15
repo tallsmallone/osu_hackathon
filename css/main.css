@@ -9,13 +9,16 @@
 }
 
 #search {
-	left:25%; 
-	width:50%;
-	min-width:500px;
+	margin: 10px auto;
+	width: 500px;
 }
 
-.tag {
+a.tag {
 	border: 1px solid black;
 	color: white;
 	background-color: grey;
+}
+
+a.title {
+	color:black;
 }
