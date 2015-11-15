@@ -59,27 +59,56 @@
 			$stmt->close();
 			if (count($result) >= 1) {
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
-				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');			
+				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
+					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?id=".$result[$i]["id"]."'>".$result[$i]["name"]."</a>";
 					$location = $result[$i]["location"];
 					echo
-"		<h3><b>".$result[$i]["name"]."</b></h3>
+"		<h3><b>$title</b></h3>
 		<b>Type:</b> ".explodeTags($result[$i]["type"],"type")."<br>
 		<b>Address:</b> <a href=\"https://www.google.com/maps?q=".str_replace(" ","+",$location)."\">$location</a><br>
 		<b>Hours:</b>
 ";
-		for ($j = 0; $j < 7; $j++) {
-			$output = "&nbsp;&nbsp;$days[$j]: " . $result[$i][strtolower($days[$j])];
-			if ($j == $day) {
-				$output = "<b>$output</b>";
-			}
-			echo 
+					if ($get > 0) { // Messy function but we'll fix it some day, maybe :)
+						for ($j = 0; $j < 7; $j++) {
+							$output = "&nbsp;&nbsp;$days[$j]: " . $result[$i][strtolower($days[$j])];
+							if ($j == $day) {
+								$output = "<b>$output</b>";
+							}
+							echo 
 "		<br>$output
 ";
-		}
-		echo 
-"		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."<br><br>
+						}
+						if (strlen($result[$i]['notes']) > 0) {
+							echo 
+"		<br>&nbsp;&nbsp;Note: ".$result[$i]['notes']."
 ";
+						}
+					} else {
+						echo
+"		<br>&nbsp;&nbsp;<b>$days[$day]:</b> ".$result[$i][strtolower($days[$day])]."
+";
+					}
+					echo 
+"		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."
+";				
+					if ($get > 0) {
+						if (strlen($result[$i]['website']) > 0) {
+							echo 
+"		<br><b>Website:</b> ".$result[$i]['website']."
+";
+						}
+						if (strlen($result[$i]['menu']) > 0) {
+							echo 
+"		<br><b>Menu:</b> ".$result[$i]['menu']."
+";
+						}
+						if (strlen($result[$i]['phone']) > 0) {
+							echo 
+"		<br><b>Phone:</b> ".$result[$i]['phone']."
+";
+						}
+					}
 				}
 			}
 		}		
