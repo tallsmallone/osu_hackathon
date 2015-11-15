@@ -30,7 +30,7 @@ while j <= 12
 	nameArray = Array.new
 	for i in 1..totalLocations / 2
 		infoTD = oddItems[i - 1]
-		name = "#{infoTD.css("h4").text.split.join(' ').gsub("'", "''")}\n"
+		name = "#{infoTD.css("h4").text.split.join(' ').gsub("'", "''")}"
 		con.query("insert into places (id, name) values (#{q}, '#{name}');")
 		q += 1
 		#target.write ("#{infoTD.css("h4")[0]['href'].text}\n")
@@ -41,7 +41,7 @@ while j <= 12
 		target.write ("\n")
 
 		infoTD = evenItems[i - 1]
-		name = "#{infoTD.css("h4").text.split.join(' ').gsub("'", "''")}\n"
+		name = "#{infoTD.css("h4").text.split.join(' ').gsub("'", "''")}"
 		con.query("insert into places (id, name) values (#{q}, '#{name}');")
 		q += 1
 		#target.write ("#{infoTD.css("h4").css("a").text.split.join(' ')}\n")
@@ -49,7 +49,9 @@ while j <= 12
 		for k in 0...infoTD.css("p").size
 			target.write ("#{infoTD.css("p")[k].text.split.join(' ').gsub("Location Type: ", "").gsub("Food Type:", "")}\n")
 		end
-		target.write ("#{infoTD.css("address").text.split.join(' ')}\n")
+		address = infoTD.css('address').text.split.join(' ')
+		
+		puts address
 		target.write ("\n")
 		# 4 TD per location
 		# Page 1

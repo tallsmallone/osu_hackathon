@@ -119,7 +119,7 @@ while j <= 12
 		infoTD = evenItems[i - 1]
 		#name = "#{infoTD.css("h4").text.split.join(' ').gsub("'", "''")}\n"
 		q += 1
-		linkArray.push("https://buckid.osu.edu/" + "#{infoTD.css("a")[0]["href"]}\n")
+		linkArray.push("https://buckid.osu.edu" + "#{infoTD.css("a")[0]["href"]}\n")
 		
 		tags = Array.new
 		for k in 0...infoTD.css("p").size
@@ -172,7 +172,7 @@ while j <= 12
 		address = infoTD.css("address").text.split.join(' ')
 		# Get address of location
 		
-		phone = address.split(//).last(13).join
+		phone = address.split(//).last(13).join.gsub(")", ") ")
 		# Get phone number
 		if !phone.include? "("
 			phone = ""
