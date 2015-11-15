@@ -46,3 +46,27 @@ a.title {
 #suggestions {
 	display:none;
 }
+div.data {
+  float:left; 
+  margin-right:20px;
+  width:400px;
+}
+div#map { 
+  margin: -50px 0;
+}
+#map iframe {
+  border: 1px solid black;
+}
+
+@media screen and (max-width: 1090px){
+   .data { 
+    float: none;
+    margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 550px){
+   #map iframe{ 
+    width:350px;
+    height:300px;
+  }
+}

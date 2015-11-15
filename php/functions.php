@@ -73,6 +73,19 @@
 		else return "";
 	}
 	
+	function getTag($tag, $from="tags") {
+		$db = db_connect();
+		if (strlen($tag) > 20 || ($from != "types" && $from != "tags")) return ""; // weak level of security
+		if ($stmt = $db->prepare("SELECT id FROM ".$from." WHERE short = ? LIMIT 1")) {
+			$stmt->bind_param("s", $tag);
+			$stmt->execute();
+			$stmt->bind_result($id);
+			$stmt->fetch();
+			$stmt->close();
+			return $id;
+		}
+	}
+	
 	function getPlaceInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check $get from $from
 		$db = db_connect();
 		if ($from == "name") $sql = "WHERE name=?"; // show by name
@@ -81,13 +94,14 @@
 		else if ($from == "id") $sql = "WHERE places.id = ?";  // show by id
 		else { $from == ""; $sql = "ORDER BY name ASC"; } // show all
 		if ($stmt = $db->prepare("SELECT places.id,name,mon,tue,wed,thu,fri,sat,sun,notes,website,menu,phone,location,types,tags FROM places JOIN hours ON places.id = hours.id JOIN info ON places.id = info.id $sql")) { // get seasonid, put into $sid)
+			$get = $db->real_escape_string($get);
 			if ($from == "id"){ 
 				$stmt->bind_param("i",$get);
 			} else if ($from == "name") {
-				$get = str_replace('_',' ',htmlentities($get));
+				$get = str_replace('_',' ',$get);
 				$stmt->bind_param("s",$get);
-			} else if (preg_match('/^\d(?:,\d)*$/',$get) && ($from == "types" || $from == "tags")) {
-				$stmt->bind_param("s",htmlentities($get));
+			} else if ($from == "types" || $from == "tags") {
+				$stmt->bind_param("i",getTag($get,$from));
 			}
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 
@@ -113,7 +127,7 @@
 					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
-"		<h3><b>$title</b></h3>
+"		<div class=\"data\"><h3><b>$title</b></h3>
 		<b>Types:</b> ".explodeTags($result[$i]["types"],"types")."<br>
 		<b>Address:</b> <a href=\"https://www.google.com/maps?q=".str_replace(" ","+",$location)."\">$location</a><br>
 		<b>Hours:</b>
@@ -140,7 +154,7 @@
 					}
 					echo 
 "		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."
-";				
+";					
 					if ($from == "name" || $from == "id") {
 						if (strlen($result[$i]['website']) > 0) {
 							echo 
@@ -157,6 +171,14 @@
 "		<br><b>Phone:</b> ".$result[$i]['phone']."
 ";
 						}
+					}
+					echo 
+"		</div>
+";
+					if (($from == "name" || $from == "id") && strlen($result[$i]['location']) > 5) {
+						echo 
+'		<div id="map"><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"width="500" height="400" src="https://maps.google.com/maps?hl=en&q='.str_replace(" ","+",$location).'&ie=UTF8&t=roadmap&z=15&iwloc=B&output=embed"></iframe></div>
+';
 					}
 				}
 			} else {
