@@ -23,9 +23,9 @@
 
 	function searchForKeyword($keyword) {
 		$db = db_connect();
-		$stmt = $db->prepare("SELECT name FROM places WHERE name LIKE ?");
+		$stmt = $db->prepare("SELECT name FROM places WHERE name LIKE ? LIMIT 15");
 
-		$keyword = $db->real_escape_string("%$keyword%");
+		$keyword = '%'.$db->real_escape_string($keyword).'%';
 		$stmt->bind_param('s', $keyword);
 
 		$results = array();
@@ -59,12 +59,12 @@
 				$result[] = $c;	
 			}
 			$stmt->close();
-			$a = 0;
 			if (count($result) > 0) {
 				$taglist = array_filter(preg_split('/[,\s]+/', $taglist));
+				$a = 0;
 				foreach ($taglist as $tag) {
 					if ($a != 0) $tags = $tags . ', ';
-					$tags = $tags . '<a class="tag" href="places?'.$href."=".$result[$a]['short'].'">'.$result[$a]['name'].'</a>';
+					$tags = $tags . '<a class="tag" href="places?'.$href."=".$result[$tag-1]['short'].'">'.$result[$tag-1]['name'].'</a>';
 					$a++;
 				}
 				return $tags; 
@@ -88,7 +88,8 @@
 	
 	function getPlaceInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check $get from $from
 		$db = db_connect();
-		if ($from == "name") $sql = "WHERE name=?"; // show by name
+		if ($from == "search" && isset($_GET['s'])) $sql = 'WHERE name LIKE ? LIMIT 30';
+		else if ($from == "name") $sql = "WHERE name=?"; // show by name
 		else if ($from == "tags") $sql = "WHERE find_in_set(?, cast(tags as char)) > 0"; // show by tags
 		else if ($from == "types") $sql = "WHERE find_in_set(?, cast(types as char)) > 0"; // show by types, TODO WORK WITH MULTIPLE tags & types
 		else if ($from == "id") $sql = "WHERE places.id = ?";  // show by id
@@ -99,6 +100,9 @@
 				$stmt->bind_param("i",$get);
 			} else if ($from == "name") {
 				$get = str_replace('_',' ',$get);
+				$stmt->bind_param("s",$get);
+			} else if ($from == "search") {
+				$get = str_replace('_',' ','%'.$get.'%');
 				$stmt->bind_param("s",$get);
 			} else if ($from == "types" || $from == "tags") {
 				$get = getTag($get,$from);
@@ -120,6 +124,7 @@
 				$i++;
 			}
 			$stmt->close();
+			if (count($result) == 1) $from = "name"; // Show everything if there's only one result;
 			if (count($result) > 0) {
 				echo "		<div";
 				echo ($from == "name" || $from == "id") ? ' class="data col-xs-6">' : '>';

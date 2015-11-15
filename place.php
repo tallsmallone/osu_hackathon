@@ -9,6 +9,9 @@
 	if (isset($_GET['id'])) {
 		getPlaceInfo(is_numeric($_GET['id']) ? $_GET['id'] : 0, "id");
 	}
+	elseif (isset($_GET['s'])) {
+		getPlaceInfo($_GET['s'], "search");
+	}
 	elseif (isset($_GET['name'])) {
 		getPlaceInfo($_GET['name'], "name");
 	}

@@ -19,12 +19,6 @@ $(document).ready(function() {
 						});
 						input.placeholder = "What would you like to eat?";
 					}
-
-					/*$('.item').click(function() {
-						var text = $(this).html();
-						$('#search').val(text);
-					});*/
-
 				});
 		}
 		else

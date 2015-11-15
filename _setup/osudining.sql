@@ -35,8 +35,8 @@ CREATE TABLE `info` (
   `id` int(11) NOT NULL,
   `location` TEXT DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
-  `website` varchar(45) DEFAULT NULL,
-  `menu` varchar(45) DEFAULT NULL,
+  `website` varchar(100) DEFAULT NULL,
+  `menu` varchar(100) DEFAULT NULL,
   `geo` varchar(45) DEFAULT NULL,
   `types` text,
   `tags` text,
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `places`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `places` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
