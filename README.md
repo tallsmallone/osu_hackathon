@@ -1,10 +1,12 @@
-# osu_hackathon
-OHI/O 2015 hackathon project
+# EDUdine
+
+OHI/O 2015 Hackathon Project
+
 Team: 
 - Nick Flint - @tallsmallone
 - Caillin Pitt - @CaillinPitt
 - Stephen Wu - @wustep
 - Jacob Gill - @jacob-inu
 
-# osuDining
-Dining website with gathered Ohio State University dining location information
+# What is this?
+A dining website with information gathered from Ohio State's websites.
