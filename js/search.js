@@ -2,10 +2,10 @@
 		    if(e.which == 13) {
 		    	var search = $('#search').val();
 		    	search = search.replace(' ', '_');
-		        window.location.replace("place?s=" + encodeURIComponent(search));
+				if ($('#search').hasClass("search_map")) {
+					window.location.replace("map?s=" + encodeURIComponent(search));
+				} else {
+					window.location.replace("place?s=" + encodeURIComponent(search));
+				}
 			}
-		});
-
-		$("#results").click(function() {
-			$('.dropdown-toggle').dropdown();
 		});

@@ -15,9 +15,8 @@ $(document).ready(function() {
 						$(results).each(function (key, value)
 						{
 							if (!$('#suggestions').find('option[value="'+value+'"]').length)
-								$('#suggestions').append('<option class="item" value="'+value+'"><a href="places?name=' + value.replace(' ', '_').toLowerCase() + '">' + value + '</a></option>');
+								$('#suggestions').append('<option class="item" value="'+value+'"><a href="places?name=' + value.replace(' ', '_') + '">' + value + '</a></option>');
 						});
-						input.placeholder = "What would you like to eat?";
 					}
 				});
 		}

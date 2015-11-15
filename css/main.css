@@ -43,3 +43,8 @@ a.tag {
 a.title {
 	color:black;
 }
+
+.data {
+	min-width: 400px;
+}
+}

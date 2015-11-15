@@ -3,7 +3,7 @@
 	require_once("php/functions.php");
 ?>
 
-	<input id="search" type="text" list="suggestions" class="form-control search_small" placeholder="Where would you like to eat?" data-toggle="dropdown">
+	<input id="search" type="text" list="suggestions" class="form-control search_small" value="<?php if (isset($_GET['s'])) echo $_GET['s']; ?>" placeholder="Where would you like to eat?" data-toggle="dropdown">
 	<datalist id="suggestions"></datalist>
 <?php
 	if (isset($_GET['id'])) {
@@ -23,8 +23,9 @@
 	}
 	else getPlaceInfo(0);
 ?>
+	<br>
 	<script type="text/javascript" src='js/autocomplete.js'></script>
-	<script typu="text/javascript" src='js/search.js'></script>
+	<script type="text/javascript" src='js/search.js'></script>
 	
 <?php
   	require_once("frames/footer.php");

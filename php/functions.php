@@ -86,7 +86,8 @@
 		}
 	}
 	
-	function getPlaceInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check $get from $from
+	
+	function getPlaceInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check 	$get from $from
 		$db = db_connect();
 		if ($from == "search" && isset($_GET['s'])) $sql = 'WHERE name LIKE ? LIMIT 30';
 		else if ($from == "name") $sql = "WHERE name=?"; // show by name
@@ -99,7 +100,7 @@
 			if ($from == "id"){ 
 				$stmt->bind_param("i",$get);
 			} else if ($from == "name") {
-				$get = str_replace('_',' ',$get);
+				$get = str_replace(['_',"\'"],[' ',"'"],$get);
 				$stmt->bind_param("s",$get);
 			} else if ($from == "search") {
 				$get = str_replace('_',' ','%'.$get.'%');
@@ -196,4 +197,125 @@
 			} 
 		}		
 	}
+
+	// Future of maps: https://developers.google.com/maps/articles/phpsqlsearch_v3
+	function getMapInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check 	$get from $from
+		$db = db_connect();
+		$get_orig = $get;
+		if ($from == "search" && isset($_GET['s'])) $sql = 'WHERE name LIKE ? LIMIT 30';
+		else if ($from == "name") $sql = "WHERE name=?"; // show by name
+		else if ($from == "tags") $sql = "WHERE find_in_set(?, cast(tags as char)) > 0"; // show by tags
+		else if ($from == "types") $sql = "WHERE find_in_set(?, cast(types as char)) > 0"; // show by types, TODO WORK WITH MULTIPLE tags & types
+		else if ($from == "id") $sql = "WHERE places.id = ?";  // show by id
+		else { $from == ""; $sql = "ORDER BY name ASC"; } // show all
+		if ($stmt = $db->prepare("SELECT places.id,name,location,types,tags FROM places JOIN hours ON places.id = hours.id JOIN info ON places.id = info.id $sql")) { // get seasonid, put into $sid)
+			$get = $db->real_escape_string($get);
+			if ($from == "id"){ 
+				$stmt->bind_param("i",$get);
+			} else if ($from == "name") {
+				$get = str_replace(['_',"\'"],[' ',"'"],$get);
+				$stmt->bind_param("s",$get);
+			} else if ($from == "search") {
+				$get = str_replace('_',' ','%'.$get.'%');
+				$stmt->bind_param("s",$get);
+			} else if ($from == "types" || $from == "tags") {
+				$get = getTag($get,$from);
+				$stmt->bind_param("i",$get);
+			}
+			$stmt->execute();
+			$meta = $stmt->result_metadata(); 
+			while ($field = $meta->fetch_field()) { 
+				$params[] = &$row[$field->name]; 
+			} 
+			call_user_func_array(array($stmt, 'bind_result'), $params); 
+
+			$i = 0;
+			$result = array();
+			while ($stmt->fetch()) {
+				foreach($row as $key => $val) 
+					$c[$key] = $val; 
+				$result[] = $c; 
+				$i++;
+			}
+			$stmt->close();
+			if (count($result) == 1) $from = "name"; // Show everything if there's only one result;
+			if (count($result) > 0) {
+				echo "		<br><p>Looking up: <b>".$get_orig."</b></p><br><div id=\"map_canvas\" style=\"width:500px;height:500px;\"></div>";
+				echo "
+<script type=\"text/javascript\">
+  var delay = 100;
+  var infowindow = new google.maps.InfoWindow();
+  var latlng = new google.maps.LatLng(83.0145, 40.0000);
+  var mapOptions = {
+    zoom: 5,
+    center: latlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var geocoder = new google.maps.Geocoder(); 
+  var map = new google.maps.Map(document.getElementById(\"map_canvas\"), mapOptions);
+  var bounds = new google.maps.LatLngBounds();
+
+  function geocodeAddress(address, next) {
+    geocoder.geocode({address:address}, function (results,status)
+      { 
+         if (status == google.maps.GeocoderStatus.OK) {
+          var p = results[0].geometry.location;
+          var lat=p.lat();
+          var lng=p.lng();
+          createMarker(address,lat,lng);
+        }
+        else {
+           if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+            nextAddress--;
+            delay++;
+          } else {
+                        }   
+        }
+        next();
+      }
+    );
+  }
+ function createMarker(add,lat,lng) {
+   var contentString = add;
+   var marker = new google.maps.Marker({
+     position: new google.maps.LatLng(lat,lng),
+     map: map,
+           });
+
+  google.maps.event.addListener(marker, 'click', function() {
+     infowindow.setContent(contentString); 
+     infowindow.open(map,marker);
+   });
+
+   bounds.extend(marker.position);
+
+ }
+  var locations = [
+";				for ($a = 0; $a < count($result); $a++) { 
+					$loc = $result[$a]["location"]; 
+					if (strlen($loc >5)) { 
+						if ($a != 0) echo ", "; 
+						echo "'".$result[$a]["location"]."'"; 
+					} 
+				} 
+				echo "
+  ];
+  var nextAddress = 0;
+  function theNext() {
+    if (nextAddress < locations.length) {
+      setTimeout('geocodeAddress(\"'+locations[nextAddress]+'\",theNext)', delay);
+      nextAddress++;
+    } else {
+      map.fitBounds(bounds);
+    }
+  }
+  theNext();
+
+</script>";
+			} else {
+				echo "<b>Sorry! No results returned.</b><br>";
+				getMapInfo(0);
+			} 
+		}		
+	}	
 ?>
