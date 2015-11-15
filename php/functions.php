@@ -64,7 +64,7 @@
 				$taglist = array_filter(preg_split('/[,\s]+/', $taglist));
 				foreach ($taglist as $tag) {
 					if ($a != 0) $tags = $tags . ', ';
-					$tags = $tags . '<a class="tag" href="'.$href.'?'.$result[$a]['short'].'">'.$result[$a]['name'].'</a>';
+					$tags = $tags . '<a class="tag" href="places?'.$href."=".$result[$a]['short'].'">'.$result[$a]['name'].'</a>';
 					$a++;
 				}
 				return $tags; 
@@ -73,17 +73,22 @@
 		else return "";
 	}
 	
-	function getPlaceInfo($get=0, $name=0) { // $get = 0 means ALL places, otherwise get the ID of $get, set $name = 1 to use name instead of id
+	function getPlaceInfo($get=0, $from="") { // $get=0 or no $from means ALL places, otherwise check $get from $from
 		$db = db_connect();
-		if ($name == 1) $sql = "WHERE name=?"; // show by name 
-		else if ($get == 0) $sql = "ORDER BY name ASC";  // show all
-		else $sql = "WHERE places.id=?"; // show by id
+		if ($from == "name") $sql = "WHERE name=?"; // show by name
+		else if ($from == "tags") $sql = "WHERE find_in_set(?, cast(tags as char)) > 0"; // show by tags
+		else if ($from == "types") $sql = "WHERE find_in_set(?, cast(types as char)) > 0"; // show by types, TODO WORK WITH MULTIPLE tags & types
+		else if ($from == "id") $sql = "WHERE places.id = ?";  // show by id
+		else { $from == ""; $sql = "ORDER BY name ASC"; } // show all
 		if ($stmt = $db->prepare("SELECT places.id,name,mon,tue,wed,thu,fri,sat,sun,notes,website,menu,phone,location,types,tags FROM places JOIN hours ON places.id = hours.id JOIN info ON places.id = info.id $sql")) { // get seasonid, put into $sid)
-			if ($name == 0 && $get != 0) $stmt->bind_param("i",$get);
-			else if ($name == 1) {
-				$get = str_replace('_',' ',$get);
+			if ($from == "id"){ 
+				$stmt->bind_param("i",$get);
+			} else if ($from == "name") {
+				$get = str_replace('_',' ',htmlspecialchars($get));
 				$stmt->bind_param("s",$get);
-			} 
+			} else if (preg_match('/^\d(?:,\d)*$/',$get) && ($from == "types" || $from == "tags")) {
+				$stmt->bind_param("s",htmlspecialchars($get));
+			}
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 
 			while ($field = $meta->fetch_field()) { 
@@ -101,11 +106,9 @@
 			}
 			$stmt->close();
 			if (count($result) > 0) {
-				if ($name == 1) $get = 1; // quick fix for $get being 0 on ?name request, fix later
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
-					//$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?id=".$result[$i]["id"]."'>".$result[$i]["name"]."</a>";
 					$url_part = str_replace(' ','_',$result[$i]["name"]);
 					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?name=$url_part'>".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
@@ -115,7 +118,7 @@
 		<b>Address:</b> <a href=\"https://www.google.com/maps?q=".str_replace(" ","+",$location)."\">$location</a><br>
 		<b>Hours:</b>
 ";
-					if ($get != 0) { // Messy function but we'll fix it some day, maybe :)
+					if ($from == "name" || $from == "id") {
 						for ($j = 0; $j < 7; $j++) {
 							$output = "&nbsp;&nbsp;$days[$j]: " . $result[$i][strtolower($days[$j])];
 							if ($j == $day) {
@@ -138,7 +141,7 @@
 					echo 
 "		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."
 ";				
-					if ($get != 0) {
+					if ($from == "name" || $from == "id") {
 						if (strlen($result[$i]['website']) > 0) {
 							echo 
 "		<br><b>Website:</b> ".$result[$i]['website']."
@@ -156,6 +159,8 @@
 						}
 					}
 				}
+			} else {
+				echo "<b>Sorry! No results returned. Try again or go <a href=\"places\">here</a> for a full listing.</b>";
 			}
 		}		
 	}

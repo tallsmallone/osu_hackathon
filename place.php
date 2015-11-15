@@ -7,10 +7,16 @@
 	   	</div>
 <?php
 	if (isset($_GET['id'])) {
-		getPlaceInfo(is_numeric($_GET['id']) ? htmlspecialchars($_GET['id']) : 0);
+		getPlaceInfo(is_numeric($_GET['id']) ? htmlspecialchars($_GET['id']) : 0, "id");
 	}
 	elseif (isset($_GET['name'])) {
-		getPlaceInfo(htmlspecialchars($_GET['name']), 1);
+		getPlaceInfo(htmlspecialchars($_GET['name']), "name");
+	}
+	elseif (isset($_GET['tags'])) {
+		getPlaceInfo(htmlspecialchars($_GET['tags']), "tags");
+	}
+	elseif (isset($_GET['types'])) {
+		getPlaceInfo(htmlspecialchars($_GET['types']), "types");
 	}
 	else getPlaceInfo(0);
 	//print_r($result); 
