@@ -1,3 +1,4 @@
+// For the auto complete
 var MIN_LENGTH = 1;
 $(document).ready(function() {
 	$('#search').keyup(function() {
