@@ -185,7 +185,8 @@
 ";				
 				if (isset($map)) echo $map;
 			} else {
-				echo "<b>Sorry! No results returned. Try again or go <a href=\"places\">here</a> for a full listing.</b>";
+				echo "<b>Sorry! No results returned.</b><br>";
+				getPlaceInfo(0);
 			} 
 		}		
 	}

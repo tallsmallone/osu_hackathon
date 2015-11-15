@@ -23,10 +23,15 @@
 	margin:auto
 }
 
-#search {
+input.search_big {
 	margin: 10px auto;
 	width:75%;
 	min-width: 500px;
+}
+
+input.search_small {
+	min-width: 300px;
+	max-width: 500px;
 }
 
 a.tag {

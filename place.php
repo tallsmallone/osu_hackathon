@@ -3,7 +3,7 @@
 	require_once("php/functions.php");
 ?>
 
-	<input id="search_small" type="text" list="suggestions" class="form-control" placeholder="Where would you like to eat?" data-toggle="dropdown">
+	<input id="search" type="text" list="suggestions" class="form-control search_small" placeholder="Where would you like to eat?" data-toggle="dropdown">
 	<datalist id="suggestions"></datalist>
 <?php
 	if (isset($_GET['id'])) {
