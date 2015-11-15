@@ -21,32 +21,22 @@
 		die("Something went wrong!");
 	}
 
-	function searchForKeyword($keyword)
-	{
+	function searchForKeyword($keyword) {
 		$db = db_connect();
-		$stmt = $db->prepare("SELECT name FROM 'places' WHERE id LIKE ? ;");
+		$stmt = $db->prepare("SELECT name FROM places WHERE name LIKE ?");
 
 		$keyword = $keyword . '%';
 		$stmt->bind_param('s', $keyword);
 
 		$results = array();
 		$stmt->execute();
-		$stmt->bind_result($results);
-		$stmt->fetch();
+		$result = $stmt->get_result();
 
-		if($results->numRows > 0)
-		{
-			$out = array();
-			while($row = $results->fetch_assoc())
-			{
-				array_push($out, $row['name']);
-
-			}
+		$out = array();
+		while($row = $result->fetch_assoc()) {
+			array_push($out,$row['name']);
 		}
-		else
-		{
-			$out ="ERROR";
-		}
+	
 
 		$db->close();
 		return $out;
