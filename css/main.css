@@ -13,3 +13,9 @@
 	width:50%;
 	min-width:500px;
 }
+
+.tag {
+	border: 1px solid black;
+	color: white;
+	background-color: grey;
+}
