@@ -4,19 +4,9 @@
 	<div class"maindiv" >
 		<img src="img/eduDine.png" class="logo">
 			<div id="search_div">
-		   		<input id="search" type="text" class="form-control" placeholder="Where to Eat" data-toggle="dropdown">
-			   	<table border='0' align='center' id="suggestions">
-			   		<tr>
-			   			<td align='left'>
-						   	<h4>Suggestions:</h4>
-						   	<ul id="results">
-						   	</ul>
-						</td>
-					</tr>
-				<table>
+		   		<input id="search" type="text" list="suggestions" class="form-control" placeholder="Where would you like to eat?" data-toggle="dropdown">
+				<datalist id="suggestions"></datalist>
 		   </div>
-	</div>
-	<div id='debug'>
 	</div>
 	<script type="text/javascript" src='js/autocomplete.js'></script>
 	<script typu="text/javascript">// for the page redirect

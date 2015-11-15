@@ -3,9 +3,8 @@
 	require_once("php/functions.php");
 ?>
 
-		<div class="input-group input-group-lg" style="width:300px%">
-	   		<input type="text" class="form-control" placeholder="Where to Eat" aria-describedby="sizing-addon1">
-	   	</div>
+	<input id="search_small" type="text" list="suggestions" class="form-control" placeholder="Where would you like to eat?" data-toggle="dropdown">
+	<datalist id="suggestions"></datalist>
 <?php
 	if (isset($_GET['id'])) {
 		getPlaceInfo(is_numeric($_GET['id']) ? $_GET['id'] : 0, "id");
@@ -20,6 +19,21 @@
 		getPlaceInfo($_GET['types'], "types");
 	}
 	else getPlaceInfo(0);
-	//print_r($result); 
+?>
+	<script type="text/javascript" src='js/autocomplete.js'></script>
+	<script typu="text/javascript">// for the page redirect
+		$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		    	var search = $('#search').val();
+		    	search = search.replace(' ', '_');
+		        window.location.replace("place?name=" + search.toLowerCase());
+			}
+		});
+
+		$("#results").click(function() {
+			$('.dropdown-toggle').dropdown();
+		});
+	</script>
+<?php
   	require_once("frames/footer.php");
 ?>
