@@ -12,20 +12,36 @@ $(document).ready(function() {
 				{
 					//$('#debug').html('more');
 					$('#results').html('');
-					if(!(data === null))
+					if(!(data === ""))
 					{
 						var results = jQuery.parseJSON(data);
+						var count = 0;
 						$(results).each(function (key, value)
 						{
-							$('#results').append('<li>' + value + '</li>');
-							//$('#debug').html(key + ", " + value);
+							$('#results').append('<li class="item"><a href="places?name=' + value.replace(' ', '_').toLowerCase() + '">' + value + '</a></li>');
+							count = count + 1;
 						});
+						if(count > 0)
+						{
+							if ($("#search").val() == "")
+							{
+								$("#suggestions").hide();
+							}
+							else
+							{
+								$("#suggestions").show();
+							}
+						}
+						else
+						{
+							$("#suggestions").hide();
+						}
 					}
 
-					$('.item').click(function() {
+					/*$('.item').click(function() {
 						var text = $(this).html();
 						$('#search').val(text);
-					});
+					});*/
 
 				});
 		}

@@ -3,12 +3,17 @@
 ?>
 	<div class"maindiv" >
 		<img src="img/eduDine.png" class="logo">
-			<div class="dropdown" id="search_div">
-		   		<input type="text" class="form-control" placeholder="Where to Eat" aria-describedby="sizing-addon1" id="search"data-toggle="dropdown" aria-expanded="false">
-		   	
-		   	<ul class="dropdown-menu results" aria-labelledby="dropdownMenu1">
-		   		<li></li>
-		   	</ul>
+			<div id="search_div">
+		   		<input id="search" type="text" class="form-control" placeholder="Where to Eat" data-toggle="dropdown">
+			   	<table border='0' align='center' id="suggestions">
+			   		<tr>
+			   			<td align='left'>
+						   	<h4>Suggestions:</h4>
+						   	<ul id="results">
+						   	</ul>
+						</td>
+					</tr>
+				<table>
 		   </div>
 	</div>
 	<div id='debug'>
@@ -21,6 +26,10 @@
 		    	search = search.replace(' ', '_');
 		        window.location.replace("place?name=" + search.toLowerCase());
 			}
+		});
+
+		$("#results").click(function() {
+			$('.dropdown-toggle').dropdown();
 		});
 	</script>
 <?php

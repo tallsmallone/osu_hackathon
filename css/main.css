@@ -12,6 +12,9 @@
 	left:25%; 
 	width:50%;
 	min-width:500px;
+	margin-left:auto;
+	margin-right:auto; 
+	display:block;
 }
 
 .maindiv {
@@ -34,4 +37,12 @@ a.tag {
 
 a.title {
 	color:black;
+}
+
+#results li {
+	list-style: none;
+}
+
+#suggestions {
+	display:none;
 }
