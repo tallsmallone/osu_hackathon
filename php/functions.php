@@ -121,13 +121,13 @@
 			}
 			$stmt->close();
 			if (count($result) > 0) {
-				echo '		<div class="data">
-';
+				echo "		<div";
+				echo ($from == "name" || $from == "id") ? ' class="data col-xs-6">' : '>';
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
-					$url_part = str_replace(' ','_',$result[$i]["name"]);
-					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
+					$url_part = str_replace([' ','&'],['_','%26'],$result[$i]["name"]);
+					$title = $from == "name" ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
 "		<h3><b>$title</b></h3>
@@ -176,7 +176,7 @@
 						}
 						if (strlen($result[$i]['location']) > 5) {
 							$map =  
-	'		<div id="map"><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"width="500" height="400" src="https://maps.google.com/maps?hl=en&q='.str_replace(" ","+",$location).'&ie=UTF8&t=roadmap&z=15&iwloc=B&output=embed"></iframe></div>
+	'		<div id="map col-xs-6"><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"width="500" height="400" src="https://maps.google.com/maps?hl=en&q='.str_replace(" ","+",$location).'&ie=UTF8&t=roadmap&z=15&iwloc=B&output=embed"></iframe></div>
 	';
 						}
 					}

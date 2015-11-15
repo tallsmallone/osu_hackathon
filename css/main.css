@@ -43,36 +43,3 @@ a.tag {
 a.title {
 	color:black;
 }
-
-#results li {
-	list-style: none;
-}
-
-#suggestions {
-	display:none;
-}
-div.data {
-  float:left; 
-  margin-right:150px;
-  line-height: 22px;
-  min-width: 350px;
-}
-div#map { 
-  margin: -30px 0;
-}
-#map iframe {
-	
-}
-
-@media screen and (max-width: 600px){
-   .data { 
-    float: none;
-    margin-bottom: 20px;
-  }
-}
-@media screen and (max-width: 550px){
-   #map iframe{ 
-    width:350px;
-    height:300px;
-  }
-}
