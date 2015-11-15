@@ -120,6 +120,8 @@
 			}
 			$stmt->close();
 			if (count($result) > 0) {
+				echo '		<div class="data">
+';
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
@@ -127,7 +129,7 @@
 					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href=\"place?name=$url_part\">".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
-"		<div class=\"data\"><h3><b>$title</b></h3>
+"		<h3><b>$title</b></h3>
 		<b>Types:</b> ".explodeTags($result[$i]["types"],"types")."<br>
 		<b>Address:</b> <a href=\"https://www.google.com/maps?q=".str_replace(" ","+",$location)."\">$location</a><br>
 		<b>Hours:</b>
@@ -156,34 +158,35 @@
 "		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."
 ";					
 					if ($from == "name" || $from == "id") {
-						if (strlen($result[$i]['website']) > 0) {
-							echo 
-"		<br><b>Website:</b> ".$result[$i]['website']."
-";
-						}
-						if (strlen($result[$i]['menu']) > 0) {
-							echo 
-"		<br><b>Menu:</b> ".$result[$i]['menu']."
-";
-						}
 						if (strlen($result[$i]['phone']) > 0) {
 							echo 
 "		<br><b>Phone:</b> ".$result[$i]['phone']."
 ";
 						}
-					}
-					echo 
-"		</div>
-";
-					if (($from == "name" || $from == "id") && strlen($result[$i]['location']) > 5) {
-						echo 
-'		<div id="map"><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"width="500" height="400" src="https://maps.google.com/maps?hl=en&q='.str_replace(" ","+",$location).'&ie=UTF8&t=roadmap&z=15&iwloc=B&output=embed"></iframe></div>
+						if (strlen($result[$i]['website']) > 0) {
+							echo 
+'		<br><a href="'.$result[$i]['website'].'"><b>Website</b></a>
 ';
+						}						
+						if (strlen($result[$i]['menu']) > 0) {
+							echo 
+"		<br><b>Menu:</b> ".$result[$i]['menu']."
+";
+						}
+						if (strlen($result[$i]['location']) > 5) {
+							$map =  
+	'		<div id="map"><iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"width="500" height="400" src="https://maps.google.com/maps?hl=en&q='.str_replace(" ","+",$location).'&ie=UTF8&t=roadmap&z=15&iwloc=B&output=embed"></iframe></div>
+	';
+						}
 					}
 				}
+					echo 
+"		</div>
+";				
+				if (isset($map)) echo $map;
 			} else {
 				echo "<b>Sorry! No results returned. Try again or go <a href=\"places\">here</a> for a full listing.</b>";
-			}
+			} 
 		}		
 	}
 ?>
