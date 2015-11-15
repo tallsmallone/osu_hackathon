@@ -54,12 +54,14 @@
 		return $tags; 		
 	}
 	
-	function getPlaceInfo($get=0) { // $get = 0 means ALL places, otherwise get the ID of $get
+	function getPlaceInfo($get=0, $name=0) { // $get = 0 means ALL places, otherwise get the ID of $get, set $name = 1 to use name instead of id
 		$db = db_connect();
-		if ($get == 0) $sql = "ORDER BY name ASC"; 
-		else $sql = "WHERE places.id=?";
+		if ($name == 1) $sql = "WHERE name=?"; // show by name 
+		else if ($get == 0) $sql = "ORDER BY name ASC";  // show all
+		else $sql = "WHERE places.id=?"; // show by id
 		if ($stmt = $db->prepare("SELECT places.id,name,mon,tue,wed,thu,fri,sat,sun,notes,website,menu,phone,location,type,tags FROM places JOIN hours ON places.id = hours.id JOIN info ON places.id = info.id $sql")) { // get seasonid, put into $sid)
-			if ($get != 0) $stmt->bind_param("i",$get);
+			if ($name == 0 && $get != 0) $stmt->bind_param("i",$get);
+			else if ($name == 1) $stmt->bind_param("s",str_replace('_',' ',$get));
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 
 			while ($field = $meta->fetch_field()) { 
@@ -79,10 +81,13 @@
 			}
 			$stmt->close();
 			if (count($result) >= 1) {
+				if ($name == 1) $get = 1; // quick fix for $get being 0 on ?name request, fix later
 				$day = jddayofweek(cal_to_jd(CAL_GREGORIAN, date("m"),date("d"), date("Y")), 0);
 				$days = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 				for ($i = 0; $i < count($result); $i++) {
-					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?id=".$result[$i]["id"]."'>".$result[$i]["name"]."</a>";
+					//$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?id=".$result[$i]["id"]."'>".$result[$i]["name"]."</a>";
+					$url_part = str_replace(' ','_',$result[$i]["name"]);
+					$title = $get != 0 ? $result[$i]["name"] : "<a class='title' href='place?name=$url_part'>".$result[$i]["name"]."</a>";					
 					$location = $result[$i]["location"];
 					echo
 "		<h3><b>$title</b></h3>
@@ -90,7 +95,7 @@
 		<b>Address:</b> <a href=\"https://www.google.com/maps?q=".str_replace(" ","+",$location)."\">$location</a><br>
 		<b>Hours:</b>
 ";
-					if ($get > 0) { // Messy function but we'll fix it some day, maybe :)
+					if ($get != 0) { // Messy function but we'll fix it some day, maybe :)
 						for ($j = 0; $j < 7; $j++) {
 							$output = "&nbsp;&nbsp;$days[$j]: " . $result[$i][strtolower($days[$j])];
 							if ($j == $day) {
@@ -113,7 +118,7 @@
 					echo 
 "		<br><b>Tags:</b> ".explodeTags($result[$i]["tags"],"tags")."
 ";				
-					if ($get > 0) {
+					if ($get != 0) {
 						if (strlen($result[$i]['website']) > 0) {
 							echo 
 "		<br><b>Website:</b> ".$result[$i]['website']."

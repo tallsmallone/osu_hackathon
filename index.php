@@ -19,7 +19,7 @@
 		    if(e.which == 13) {
 		    	var search = $('#search').val();
 		    	search = search.replace(' ', '_');
-		        window.location.replace("http://osudining.warlockgaming.com/place.php?name=" + search.toLowerCase());
+		        window.location.replace("place?name=" + search.toLowerCase());
 			}
 		});
 	</script>
