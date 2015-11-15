@@ -61,7 +61,10 @@
 		else $sql = "WHERE places.id=?"; // show by id
 		if ($stmt = $db->prepare("SELECT places.id,name,mon,tue,wed,thu,fri,sat,sun,notes,website,menu,phone,location,type,tags FROM places JOIN hours ON places.id = hours.id JOIN info ON places.id = info.id $sql")) { // get seasonid, put into $sid)
 			if ($name == 0 && $get != 0) $stmt->bind_param("i",$get);
-			else if ($name == 1) $stmt->bind_param("s",str_replace('_',' ',$get));
+			else if ($name == 1) {
+				$get = str_replace('_',' ',$get);
+				$stmt->bind_param("s",$get);
+			} 
 			$stmt->execute();
 			$meta = $stmt->result_metadata(); 
 			while ($field = $meta->fetch_field()) { 
