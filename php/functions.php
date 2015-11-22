@@ -250,6 +250,7 @@
   var mapOptions = {
     zoom: 15,
     center: latlng,
+	maxZoom: 16,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   var geocoder = new google.maps.Geocoder(); 
@@ -269,7 +270,7 @@
             nextAddress--;
             delay++;
           } else {
-                        }   
+          }   
         }
         next();
       }
