@@ -239,22 +239,22 @@
 			}
 			$stmt->close();
 			if (count($result) == 1) $from = "name"; // Show everything if there's only one result;
-			if (count($result) > 0) {
-				echo "		<br><p>Looking up: <b>".$get_orig."</b></p><br><div id=\"map_canvas\" style=\"width:500px;height:500px;\"></div>";
+			if (count($result) >= 0) {
+				$get_info = strlen($get_orig>=1) ? '<p>Looking up: <b>".$get_orig."</b></p><br>' : '';
+				echo "		<br>$get_info<div id=\"map_canvas\" style=\"width:500px;height:500px;\"></div>";
 				echo "
 <script type=\"text/javascript\">
   var delay = 100;
   var infowindow = new google.maps.InfoWindow();
-  var latlng = new google.maps.LatLng(83.0145, 40.0000);
+  var latlng = new google.maps.LatLng(40.0000, -83.0145);
   var mapOptions = {
-    zoom: 5,
+    zoom: 15,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   var geocoder = new google.maps.Geocoder(); 
   var map = new google.maps.Map(document.getElementById(\"map_canvas\"), mapOptions);
   var bounds = new google.maps.LatLngBounds();
-
   function geocodeAddress(address, next) {
     geocoder.geocode({address:address}, function (results,status)
       { 
@@ -302,15 +302,16 @@
   ];
   var nextAddress = 0;
   function theNext() {
-    if (nextAddress < locations.length) {
-      setTimeout('geocodeAddress(\"'+locations[nextAddress]+'\",theNext)', delay);
-      nextAddress++;
-    } else {
-      map.fitBounds(bounds);
-    }
+	if (locations.length > 0) {
+      if (nextAddress < locations.length) {
+        setTimeout('geocodeAddress(\"'+locations[nextAddress]+'\",theNext)', delay);
+        nextAddress++;
+      } else {
+        map.fitBounds(bounds);
+      }
+	}
   }
   theNext();
-
 </script>";
 			} else {
 				echo "<b>Sorry! No results returned.</b><br>";

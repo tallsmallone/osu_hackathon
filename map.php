@@ -7,6 +7,9 @@
 
 	<input id="search" type="text" list="suggestions" class="form-control search_small search_map" value="<?php if (isset($_GET['s'])) echo $_GET['s']; ?>" placeholder="Where would you like to eat?" data-toggle="dropdown">
 	<datalist id="suggestions"></datalist>
+<?php
+	if ($gm) {
+?>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $gm; ?>">
     </script>	
 <?php
@@ -26,6 +29,9 @@
 		getMapInfo($_GET['types'], "types");
 	}
 	else getMapInfo(0);
+	} else {
+		echo "The google maps api was not set up on this server!";
+	}
 ?>
 	<script type="text/javascript" src='js/autocomplete.js'></script>
 	<script type="text/javascript" src='js/search.js'></script>
